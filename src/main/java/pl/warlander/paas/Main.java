@@ -26,14 +26,11 @@ public class Main {
             System.out.println(databaseString);
             try {
                 URI databaseUri = new URI(databaseString);
-                int port = databaseUri.getPort();
-                String host = databaseUri.getHost();
-                String path = databaseUri.getPath();
                 String username = (databaseUri.getUserInfo() == null) ? null : databaseUri.getUserInfo().split(":")[0];
                 String password = (databaseUri.getUserInfo() == null) ? null : databaseUri.getUserInfo().split(":")[1];
                 
                 System.out.println("Connecting to database");
-                sql = new Sql2o("jdbc:postgresql://" + host + ":" + port + path, username, password);
+                sql = new Sql2o("jdbc:" + databaseString, username, password);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
