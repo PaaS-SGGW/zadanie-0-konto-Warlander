@@ -9,14 +9,14 @@
         <meta charset="${charset}">
     </head>
     <body>
-        <table style="table-layout:fixed">
+        <table>
             <tr>
-                <th>id</th>
-                <th>text</th>
+                <td width="20px">id</td>
+                <td>text</td>
             </tr>
             <#list texts as text>
             <tr>
-                <td>${text.id}</td>
+                <td width="20px">${text.id}</td>
                 <td>${text.text}</td>
             </tr>
             </#list>
