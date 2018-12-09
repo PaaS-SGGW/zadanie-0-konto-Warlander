@@ -30,7 +30,7 @@ public class Main {
                 String password = (databaseUri.getUserInfo() == null) ? null : databaseUri.getUserInfo().split(":")[1];
                 
                 System.out.println("Connecting to database");
-                sql = new Sql2o("jdbc:" + databaseString, username, password);
+                sql = new Sql2o(databaseString, username, password);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
