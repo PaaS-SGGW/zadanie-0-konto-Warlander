@@ -1,13 +1,7 @@
 package pl.warlander.paas;
 
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.Request;
@@ -17,26 +11,25 @@ import spark.template.freemarker.FreeMarkerEngine;
 
 public class Main {
 
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
     private static Sql2o sql;
     
     public static void main(String[] args) {
         String databaseString = System.getenv("JDBC_DATABASE_URL");
         if (databaseString != null) {
-            logger.info(databaseString);
-            logger.info("Connecting to database");
+            System.out.println(databaseString);
+            System.out.println("Connecting to database");
             sql = new Sql2o(databaseString);
         }
         else {
-            logger.info("Launching locally, aborting");
+            System.out.println("Launching locally, aborting");
             System.exit(0);
         }
         
-        logger.info("Detecting port");
+        System.out.println("Detecting port");
         Spark.port(getHerokuAssignedPort());
         Spark.staticFiles.location("/");
 
-        logger.info("Initializing Spark");
+        System.out.println("Initializing Spark");
         Spark.get("*", Main::handleMainPage);
     }
 
