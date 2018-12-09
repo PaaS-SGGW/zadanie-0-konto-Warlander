@@ -1,7 +1,11 @@
 package pl.warlander.paas;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.Request;
@@ -15,10 +19,23 @@ public class Main {
     
     public static void main(String[] args) {
         String databaseString = System.getenv("JDBC_DATABASE_URL");
+        
         if (databaseString != null) {
             System.out.println(databaseString);
-            System.out.println("Connecting to database");
-            sql = new Sql2o(databaseString);
+            try {
+                URI databaseUri = new URI(databaseString);
+                int port = databaseUri.getPort();
+                String host = databaseUri.getHost();
+                String path = databaseUri.getPath();
+                String username = (databaseUri.getUserInfo() == null) ? null : databaseUri.getUserInfo().split(":")[0];
+                String password = (databaseUri.getUserInfo() == null) ? null : databaseUri.getUserInfo().split(":")[1];
+                
+                System.out.println("Connecting to database");
+                sql = new Sql2o("jdbc:postgresql://" + host + ":" + port + path, username, password);
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
         else {
             System.out.println("Launching locally, aborting");
