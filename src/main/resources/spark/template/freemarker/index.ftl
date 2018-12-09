@@ -9,7 +9,7 @@
         <meta charset="${charset}">
     </head>
     <body>
-        <table>
+        <table style="table-layout:fixed">
             <tr>
                 <th>id</th>
                 <th>text</th>
