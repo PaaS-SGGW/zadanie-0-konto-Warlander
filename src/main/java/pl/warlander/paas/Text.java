@@ -23,4 +23,12 @@ public class Text {
         this.text = text;
     }
     
+    public int getId() {
+        return id;
+    }
+    
+    public String getText() {
+        return text;
+    }
+    
 }
