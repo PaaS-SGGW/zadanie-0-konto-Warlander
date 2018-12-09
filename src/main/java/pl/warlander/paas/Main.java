@@ -3,9 +3,11 @@ package pl.warlander.paas;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.Request;
@@ -35,7 +37,6 @@ public class Main {
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
         else {
             System.out.println("Launching locally, aborting");
@@ -51,11 +52,22 @@ public class Main {
     }
 
     private static String handleMainPage(Request request, Response response) {
+        
+        
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("title", "Heroku PaaS");
-        attributes.put("message", "Current route: " + request.pathInfo());
-
+        List<Text> texts = getTextListFromDatabase();
+        attributes.put("texts", texts);
+        
         return new FreeMarkerEngine().render(new ModelAndView(attributes, "index.ftl"));
+    }
+    
+    private static List<Text> getTextListFromDatabase() {
+        String query = "SELECT * FROM paas";
+        
+        try (Connection con = sql.open()) {
+            return con.createQuery(query).executeAndFetch(Text.class);
+        }
     }
 
     private static int getHerokuAssignedPort() {

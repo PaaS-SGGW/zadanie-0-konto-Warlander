@@ -9,6 +9,17 @@
         <meta charset="${charset}">
     </head>
     <body>
-        ${message}
+        <table>
+            <tr>
+                <th>id</th>
+                <th>text</th>
+            </tr>
+            <#list texts as text>
+            <tr>
+                <td>${text.id}</td>
+                <td>${text.text}</td>
+            </tr>
+            </#list>
+        </table>
     </body>
 </html>
