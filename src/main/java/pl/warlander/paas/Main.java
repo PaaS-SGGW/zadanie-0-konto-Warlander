@@ -23,6 +23,7 @@ public class Main {
     public static void main(String[] args) {
         String databaseString = System.getenv("JDBC_DATABASE_URL");
         if (databaseString != null) {
+            logger.info(databaseString);
             logger.info("Connecting to database");
             sql = new Sql2o(databaseString);
         }
